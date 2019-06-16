@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MMM-dd hh:mm:ss a } %level %c - %m %n" />
+        </Console>
+
+        <JDBC name="JDBCAppender" tableName="APP_LOGS">
+            <ConnectionFactory
+                    class="part05.lesson17.task01.ConnectionFactory" method="getConnection" />
+            <Column name="LOG_ID" pattern="%u" isUnicode="false" />
+            <Column name="ENTRY_DATE" isEventTimestamp="true" isUnicode="false" />
+            <Column name="LOG_LEVEL" pattern="%level" isUnicode="false" />
+            <Column name="MESSAGE" pattern="%m" isUnicode="false" />
+            <Column name="EXCEPTION" pattern="%throwable " isUnicode="false" />
+        </JDBC>
+    </Appenders>
+
+        <Loggers>
+            <Logger name="JDBCAppender_example" level="debug"
+                    additivity="false">
+                <AppenderRef ref="Console" />
+            <AppenderRef ref="JDBCAppender" />
+            </Logger>
+
+        <Root level="trace">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="JDBCAppender"/>
+        </Root>
+        </Loggers>
+
+</Configuration>
